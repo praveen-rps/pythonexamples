@@ -1,0 +1,12 @@
+Requests module supports the following methods:
+
+Method	                    Description
+------                      -----------
+get	                        Send an HTTP GET request
+put	                        Send an HTTP PUT request
+post	                    Send an HTTP POST request
+delete	                    Send an HTTP DELETE request
+
+
+Response Methods
+-----------------

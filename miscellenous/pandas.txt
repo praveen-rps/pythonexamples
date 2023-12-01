@@ -1,0 +1,69 @@
+pip install <module/lib>
+
+Pandas.DataFrame.
+
+append() --> to add the rows of one dataframe to another dataframe
+
+dataframe1.append(dataframe2)
+
+apply()  --> to apply the given method to each and every element in dataframe
+
+drop_duplicates() --> This will helps us in removing duplicate values from the 
+dataframe
+
+syntax:
+
+dataframe.drop_duplicates(subset=None, keep="first", inplace=False)
+subset = column or list of columns to check
+keep = first/last/false
+inplace = true/false
+
+concat()
+
+
+merge()
+
+merge(left,right,how='inner',on=None, left_on=None,right_on=None,
+left_index=False,right_index=False,sort=True)
+
+how = left,right,outer,inner,
+
+
+
+
+Customers
+---------
+id,name,city
+1001,praveen,hyd,9001,tv,29/11/23
+1002,kumar,chennai,9002,fridge,28/11/23
+1003,sai,chennai,
+
+Order
+-----
+oid,oname,odate
+9001,tv,29/11/23,1001
+9001,fridge,28/11/23,1002
+9002,stand,28/11/23,1001
+
+
+
+
+
+
+
+assign()
+astype()
+concat()
+count()
+describe()
+drop_duplicates()
+groupby()
+head()
+tail()
+merge()
+query()
+sort()
+to_excel()
+transpose()
+
+
