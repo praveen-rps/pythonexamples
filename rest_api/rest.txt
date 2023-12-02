@@ -10,3 +10,4 @@ delete	                    Send an HTTP DELETE request
 
 Response Methods
 -----------------
+status code  and description
