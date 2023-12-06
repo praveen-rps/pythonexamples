@@ -1,0 +1,123 @@
+import pandas as pd
+
+# Create a DataFrame
+data = {'Category': ['A', 'B', 'A', 'B', 'A', 'B'],
+        'Value': [10, 20, 30, 40, 50, 60]}
+df = pd.DataFrame(data)
+
+# Group by 'Category' and calculate the mean for each group
+grouped_df = df.groupby('Category').mean()
+print(grouped_df)
+
+
+# Define a custom aggregation function
+def custom_agg_function(group):
+    return group['Value'].max() - group['Value'].min()
+
+# Group by 'Category' and apply the custom aggregation function
+grouped_df = df.groupby('Category').apply(custom_agg_function)
+print(grouped_df)
+
+
+
+# Create a DataFrame with a numerical column
+data = {'Value': [10, 15, 25, 30, 35, 40]}
+df = pd.DataFrame(data)
+
+# Define bins and labels for grouping
+bins = [0, 20, 40, 60]
+labels = ['Low', 'Medium', 'High']
+
+# Group by the defined bins and calculate the mean for each group
+df['Category'] = pd.cut(df['Value'], bins=bins, labels=labels)
+grouped_df = df.groupby('Category').mean()
+print(grouped_df)
+
+
+import pandas as pd
+import numpy as np
+
+# Create a sample DataFrame
+data = {
+    'Date': pd.date_range(start='2023-01-01', end='2023-01-10', freq='D'),
+    'Product': ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'A', 'B', 'A'],
+    'Amount': [100, 150, 200, 120, 180, 130, 220, 240, 170, 200],
+    'Region': ['North', 'South', 'North', 'South', 'North', 'South', 'North', 'North', 'South', 'North']
+}
+
+df = pd.DataFrame(data)
+
+# Group by multiple columns ('Date' and 'Region') and calculate various statistics
+grouped_df = df.groupby(['Date', 'Region']).agg({
+    'Amount': ['sum', 'mean'],
+    'Product': 'count'
+}).reset_index()
+
+# Rename columns for clarity
+grouped_df.columns = ['Date', 'Region', 'TotalAmount', 'AverageAmount', 'TransactionCount']
+
+# Add a new column representing the total sales for each day
+grouped_df['DailyTotal'] = grouped_df.groupby('Date')['TotalAmount'].transform('sum')
+
+# Add a column indicating the percentage of total sales contributed by each region
+grouped_df['PercentageOfTotal'] = grouped_df['TotalAmount'] / grouped_df['DailyTotal'] * 100
+
+print(grouped_df)
+
+
+
+
+
+import pandas as pd
+import numpy as np
+
+# Create a sample DataFrame
+data = {
+    'CustomerID': [1, 2, 1, 3, 2, 3, 1, 2, 3, 1],
+    'ProductID': [101, 102, 101, 103, 102, 103, 101, 102, 103, 101],
+    'PurchaseAmount': [50, 30, 40, 60, 25, 35, 55, 28, 45, 48],
+    'Category': ['Electronics', 'Clothing', 'Electronics', 'Electronics', 'Clothing', 'Electronics', 'Electronics', 'Clothing', 'Electronics', 'Electronics'],
+    'Date': pd.to_datetime(['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02', '2023-01-03', '2023-01-03', '2023-01-04', '2023-01-04', '2023-01-05', '2023-01-05'])
+}
+
+df = pd.DataFrame(data)
+
+# Group by 'CustomerID' and calculate total purchase amount and average purchase amount
+customer_summary = df.groupby('CustomerID').agg({
+    'PurchaseAmount': ['sum', 'mean'],
+    'ProductID': 'nunique',
+    'Category': lambda x: x.mode().iloc[0],
+    'Date': ['min', 'max']
+}).reset_index()
+
+# Rename columns for clarity
+customer_summary.columns = ['CustomerID', 'TotalPurchaseAmount', 'AveragePurchaseAmount', 'UniqueProductCount', 'FrequentCategory', 'FirstPurchaseDate', 'LastPurchaseDate']
+
+print(customer_summary)
+
+
+
+import pandas as pd  
+  
+column_subset = [  
+     "id",  
+     "make",  
+     "model",  
+     "year",  
+     "cylinders",  
+     "fuelType",  
+     "trany",  
+     "mpgData",  
+     "city08",  
+     "highway08"  
+ ]  
+  
+df = pd.read_csv(  
+    "https://www.fueleconomy.gov/feg/epadata/vehicles.csv",  
+    usecols = column_subset,  
+    nrows = 100  
+ )  
+  
+df.head()
+
+
