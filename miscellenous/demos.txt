@@ -1,0 +1,162 @@
+1. REST Api
+
+2. Database
+
+3. Files
+
+
+1. Reading the data from database and post to rest api call
+
+REST API application
+
+http://localhost:8081/notes/create ---> json in the request object
+
+
+2. Reading the data from rest api get call and insert into database
+
+3. Reading the data from database and write to a csv file
+
+4. reading the data from a csv file and write to a database
+
+5. reading the data from a csv file and post to rest api call
+
+6. reading the data from a rest get call and write it to a csv file
+
+7. sending the file as an attachment to email
+
+
+# The python program to read the data from a mysql database and
+# write it to another csv file
+# for files csv module is required and for database mysql.connector
+
+#1. import the required modules
+import csv
+import mysql.connector
+
+# provide the database configurations
+mysql_config = {
+    'host':'localhost',
+    'user':'root',
+    'password':'root',
+    'database':'fisglobal'
+}
+
+# provide the csv file details
+csv_file_path = 'e://data/dbtocsv1.csv'
+
+# write a method to fetch the data from database
+def fetch_data_from_mysql():
+    try:
+        # connec to database
+        connection = mysql.connector.connect(**mysql_config)
+        cursor = connection.cursor();
+        query = "select * from employees"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        print("Data is fetched from database")
+        return rows
+    except Error as err:
+        print(f"Error is : ",{err})
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+    
+
+#write a method to write data to csv file
+def write_data_to_csv(data):
+        try:
+            # open the csv file for writing
+            with open(csv_file_path,"a",newline='') as csvfile:
+                csv_writer = csv.writer(csvfile, delimiter='|')
+                csv_writer.writerow(['Employee Id','Employee Name','Department','Salary'])
+                csv_writer.writerows(data)
+            print("Data successfully writen to file")
+        except IOError as e:
+            print(f"Error in writint to csv file ",{e})
+
+
+# write a main method to call the above two functions
+
+if __name__ == "__main__":
+    data_from_db = fetch_data_from_mysql()
+
+    if data_from_db:
+        write_data_to_csv(data_from_db)
+    else:
+        print("No data feteched from mysql")
+
+--------------------------------------------------------------------------------
+python program to read data from database and post it to rest api call
+
+import mysql.connector
+import requests
+
+# provide the database configurations
+mysql_config = {
+    'host':'localhost',
+    'user':'root',
+    'password':'root',
+    'database':'citibank'
+}
+
+#Rest end point
+api_endpoint = "http://localhost:8081/notes/create"
+api_headers= {
+    'Content-Type': 'application/json'
+}
+
+#define method to fetch data from mysql database
+def fetch_data_from_mysql():
+    try:
+        # connec to database
+        connection = mysql.connector.connect(**mysql_config)
+        cursor = connection.cursor();
+        query = "select * from notesdemo"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        print("Data is fetched from database")
+        return rows
+    except Error as err:
+        print(f"Error is : ",{err})
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            connection.close()
+
+# method to post the data to rest call
+
+def post_data_to_api(data):
+
+    try:
+        # make post request to api endpoint
+        response = requests.post(api_endpoint,json=data,headers=api_headers)
+
+        #print the responses received
+        print("Response Status Code -> ",response.status_code)
+        if (response.status_code == 200):
+            print("Post data is successful")
+        else:
+            print("Data not posted")
+    except requests.RequestException as err:
+        print(f"Error in making api call : {err}")
+
+
+# main method
+if __name__ == "__main__":
+    data_from_db = fetch_data_from_mysql()
+
+    for row in data_from_db:
+        post_data_to_api(dict(zip(['pid','author','title','description'],row)))
+print("Data transfer done....")
+
+
+
+
+
+
+
+
+
+
